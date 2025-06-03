@@ -1,0 +1,11 @@
+{
+  "host": "192.168.1.63",
+  "puerto": "8006",
+  "usuario": "root@pam" ,
+  "clave": "sameva",
+  "NODE": "pve",
+  "url": "192.168.1.63",
+  "STORAGE": "local-lvm",
+  "usuario_guacamole": "sameva",
+  "password_guacamole": "@sameva1710@"
+}
