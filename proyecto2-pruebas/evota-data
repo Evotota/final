@@ -1,0 +1,26 @@
+#cloud-config
+hostname: babyOne
+manage_etc_hosts: true
+chpasswd:
+  list:
+  - evota:1710sameva
+  expire: false
+users:
+- name: evota
+  shell: /bin/bash
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  groups: sudo
+write_files:
+- path: /etc/ssh/sshd_config.d/disable-root-login.conf
+  content: 'PermitRootLogin no
+
+    '
+  owner: root:root
+  permissions: '0644'
+package_update: true
+package_upgrade: true
+packages:
+- qemu-guest-agent
+- wordpress
+runcmd:
+- systemctl restart sshd

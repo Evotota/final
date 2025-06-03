@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-color: #F7F0E5;
+        margin: 0;
+        min-height: 100vh;
+    }
+
+    .navbar {
+        background-color: #F7F0E5 !important;
+    }
+
+    .img-carrusel {
+        max-width: 1700px;
+        height: 800px;
+        object-fit: cover;
+        margin: 0 auto;
+    }
+
+    .navbar-text {
+        color: blue;
+        margin-left: 600px;
+        font-weight: bold;
+        font-size: x-large;
+    }
+
+    .carousel-caption {
+        color: white;
+        font-weight: bold;
+        font-size: xx-large;
+        font-style: italic;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+    .registro{
+        padding:15px;
+        margin-right: 125px;
+    }
+    .blanco{
+        margin-top: 10px;
+    }
+
+</style>
+
+<body>
+    <nav class="navbar bg-body-tertiary mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='imagenes/sameva_logo.png') }}" alt="Sameva Logo" width="200" height="100"
+                    class="d-inline-block align-text-top">
+            </a>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button onclick="window.location.href='{{ url_for('inicio') }}'" class="btn btn-info registro">
+                        Acceder al servicio
+                </button>
+            </div>
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='imagenes/profesional.png') }}" class="d-block img-carrusel" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Profesionalidad</h1>
+                    <p class="blanco"> Disfrutarás de un equipo técnico que te proporcionará soporte</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='imagenes/poli(1).png') }}" class="d-block img-carrusel" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Seguridad</h1>
+                    <p>Copias de seguridad recurrentes y conexión encriptada</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='imagenes/Redundancia(1).png') }}" class="d-block img-carrusel" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Alta Disponibilidad</h1>
+                    <p>Cluster de servidores dedicados para tus maquinas</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

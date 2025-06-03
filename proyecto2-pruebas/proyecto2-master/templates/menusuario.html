@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #F7F0E5;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: #F7F0E5 !important;
+    }
+
+    .form-check-label {
+      margin-left: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .range-value {
+      font-weight: bold;
+    }
+
+    .card {
+      border: none;
+      background-color: #fff;
+    }
+
+    .btn-custom {
+      background-color: #C95F47;
+      color: white;
+    }
+
+    .btn-custom:hover {
+      background-color: #b34d37;
+    }
+  </style>
+
+  <title>Configuración de Máquina Virtual</title>
+</head>
+
+<body>
+  <nav class="navbar bg-body-tertiary mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='imagenes/sameva_logo.png') }}" alt="Sameva Logo" width="200" height="100"
+          class="d-inline-block align-text-top">
+      </a>
+    </div>
+  </nav>
+  <div class="container mb-5">
+    <div id="win10Warning" class="container mt-3 d-none">
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠️ Para Windows 10, se requiere al menos: <strong>1 GB de RAM</strong> y <strong>32 GB de disco</strong>.
+      </div>
+    </div>
+    <div id="win11Warning" class="container mt-3 d-none">
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠️ Para Windows 11, se requiere al menos:
+        <strong>4 GB de RAM</strong> y <strong>64 GB de disco</strong> y <strong> 2 Núcleos</strong>
+
+      </div>
+    </div>
+    <div id="ubuntu24Warning" class="container mt-3 d-none">
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠️ Para Ubuntu 24.04.2, se requiere al menos:
+        <strong>4 GB de RAM</strong> y <strong>25 GB de disco</strong> y <strong> 2 Núcleos</strong>
+      </div>
+    </div>
+    <div id="ubuntu22Warning" class="container mt-3 d-none">
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠️ Para Ubuntu 22.04.5, se requiere al menos:
+        <strong>4 GB de RAM</strong> y <strong>25 GB de disco</strong> y <strong> 2 Núcleos</strong>
+      </div>
+    </div>
+    <div id="rocky8Warning" class="container mt-3 d-none">
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠️ Para Rocky Linux 8, se requiere al menos:
+        <strong>1 GB de RAM</strong> y <strong>10 GB de disco</strong>
+      </div>
+    </div>
+    <div id="rocky9Warning" class="container mt-3 d-none">
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠️ Para Rocky Linux 9, se requiere al menos:
+        <strong>2 GB de RAM</strong> y <strong>40 GB de disco</strong>
+      </div>
+    </div>
+    <div id="containerWarning" class="container mt-3 d-none">
+      <div class="alert alert-info text-center" role="alert">
+        ⚙️ Al elegir <strong>Contenedor</strong>, se te asignará directamente sistema operativo, CPU, RAM o disco
+        dependiendo de las app que solicites.
+      </div>
+    </div>
+    <h2 class="text-center mb-4">Configura tu Máquina Virtual</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card p-3 shadow-sm h-100">
+          <h5 class="section-title text-center">Sistema Operativo</h5>
+          <div class="list-group list-group-flush">
+            <button type="button" class="list-group-item list-group-item-action selectable system-os">Windows
+              10</button>
+            <button type="button" class="list-group-item list-group-item-action selectable system-os">Windows
+              11</button>
+            <button type="button" class="list-group-item list-group-item-action selectable system-os">Ubuntu
+              22.04.5(Jammy Jellyfish)</button>
+            <button type="button" class="list-group-item list-group-item-action selectable system-os">Ubuntu
+              24.04.2(Nobel Numbat)</button>
+            <button type="button" class="list-group-item list-group-item-action selectable system-os">Rocky Linux
+              8</button>
+            <button type="button" class="list-group-item list-group-item-action selectable system-os">Rocky Linux
+              9</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card p-3 shadow-sm h-100">
+          <h5 class="section-title text-center">Tipo de Virtualización</h5>
+          <div class="list-group list-group-flush">
+            <button type="button" class="list-group-item list-group-item-action selectable virtual-type">Máquina
+              Virtual</button>
+            <button type="button"
+              class="list-group-item list-group-item-action selectable virtual-type">Contenedor</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card p-3 shadow-sm h-100">
+          <h5 class="section-title text-center">CPU</h5>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cpuRadios" id="cpu1" value="1">
+            <label class="form-check-label" for="cpu1">1 Núcleo</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cpuRadios" id="cpu2" value="2" checked>
+            <label class="form-check-label" for="cpu2">2 Núcleos</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cpuRadios" id="cpu3" value="3">
+            <label class="form-check-label" for="cpu3">3 Núcleos</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cpuRadios" id="cpu4" value="4">
+            <label class="form-check-label" for="cpu4">4 Núcleos</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="cpuRadios" id="cpu5" value="5">
+            <label class="form-check-label" for="cpu5">5 Núcleos</label>
+          </div>
+        </div>
+      </div>
+      <title>Selecciona Aplicaciones</title>
+      </head>
+
+      <body>
+
+        <nav class="navbar bg-body-tertiary mb-4">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+              <img src="imagenes/sameva_logo.png" alt="Sameva Logo" width="200" height="100"
+                class="d-inline-block align-text-top">
+            </a>
+          </div>
+        </nav>
+
+        <div class="container mb-5">
+          <h2 class="text-center mb-4">Selecciona las Aplicaciones a Instalar</h2>
+
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="card p-4 shadow-sm">
+                <h5 class="section-title text-center mb-4">Aplicaciones Disponibles</h5>
+
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" id="appApache">
+                  <label class="form-check-label" for="appApache">
+                    Apache
+                  </label>
+                </div>
+
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" id="appWordpress" checked>
+                  <label class="form-check-label" for="appWordpress">
+                    WordPress
+                  </label>
+                </div>
+
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" id="appDocker" checked>
+                  <label class="form-check-label" for="appDocker">
+                    Docker
+                  </label>
+                </div>
+
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" id="appPFSense" checked>
+                  <label class="form-check-label" for="appPFSense">
+                    PFSense
+                  </label>
+                </div>
+
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" id="appVSCode" checked>
+                  <label class="form-check-label" for="appVSCode">
+                    Visual Studio Code
+                  </label>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="card p-3 shadow-sm h-100">
+                    <h5 class="section-title text-center">RAM</h5>
+                    <label for="ramRange" class="form-label text-center">GB</label>
+                    <input type="range" class="form-range" min="0" max="32" step="1" id="ramRange">
+                    <div class="d-flex justify-content-between mt-1">
+                      <span>0 GB</span>
+                      <span id="ramValue" class="range-value badge bg-primary rounded-pill">16 GB</span>
+                      <span>32 GB</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card p-3 shadow-sm h-100">
+                    <h5 class="section-title text-center">Disco</h5>
+                    <label for="diskRange" class="form-label text-center">GB</label>
+                    <input type="range" class="form-range" min="0" max="100" step="1" id="diskRange">
+                    <div class="d-flex justify-content-between mt-1">
+                      <span>0 GB</span>
+                      <span id="diskValue" class="range-value badge bg-primary rounded-pill">50 GB</span>
+                      <span>100 GB</span>
+                    </div>
+                  </div>
+                </div>
+
+
+                <form action="/crear" method="post">
+                  <input type="hidden" id="selectedOS" name="sistema_operativo">
+                  <input type="hidden" id="ramRange" name="ram">
+                  <input type="hidden" id="diskRange" name="disco">
+                  <input type="hidden" name="cpu" id="cpuSelected">
+                  <div class="col-12 text-center mt-4">
+                    <button class="btn btn-custom btn-lg px-5">Crear Máquina Virtual</button>
+                  </div>
+              </div>
+            </div>
+            </<form>
+            </form>
+
+            <script>
+              document.querySelector("form").addEventListener("submit", function (e) {
+                // Capturar sistema operativo seleccionado
+                const osButton = document.querySelector('.system-os.active');
+                document.getElementById("selectedOS").value = osButton ? osButton.textContent.trim() : "";
+
+                // Capturar RAM y Disco
+                document.getElementById("ramRange").value = document.getElementById("ramRange").value;
+                document.getElementById("diskRange").value = document.getElementById("diskRange").value;
+
+                // Capturar CPU seleccionado
+                const cpuRadio = document.querySelector('input[name="cpuRadios"]:checked');
+                document.getElementById("cpuSelected").value = cpuRadio ? cpuRadio.value : "";
+
+                // Capturar aplicaciones seleccionadas
+                const apps = [];
+                if (document.getElementById("appApache").checked) apps.push("Apache");
+                if (document.getElementById("appWordpress").checked) apps.push("WordPress");
+                if (document.getElementById("appDocker").checked) apps.push("Docker");
+                if (document.getElementById("appPFSense").checked) apps.push("PFSense");
+                if (document.getElementById("appVSCode").checked) apps.push("Visual Studio Code");
+
+                document.getElementById("appsSelected").value = apps.join(", ");
+              });
+            </script>
+            <script>
+              const ramRange = document.getElementById('ramRange');
+              const diskRange = document.getElementById('diskRange');
+              const ramValue = document.getElementById('ramValue');
+              const diskValue = document.getElementById('diskValue');
+              const crearMaquinaBtn = document.getElementById('crearMaquinaBtn');
+
+              const win10Warning = document.getElementById('win10Warning');
+              const win11Warning = document.getElementById('win11Warning');
+              const ubuntu24Warning = document.getElementById('ubuntu24Warning');
+              const ubuntu22Warning = document.getElementById('ubuntu22Warning');
+              const rocky8Warning = document.getElementById('rocky8Warning');
+              const rocky9Warning = document.getElementById('rocky9Warning');
+              const containerWarning = document.getElementById('containerWarning');
+
+              let selectedOS = null;
+              let selectedVirtualType = null;
+
+              const osButtons = document.querySelectorAll('.system-os');
+              const cpuRadios = document.querySelectorAll('input[name="cpuRadios"]');
+              const ramSlider = document.getElementById('ramRange');
+              const diskSlider = document.getElementById('diskRange');
+
+
+              ramValue.textContent = ramRange.value + ' GB';
+              diskValue.textContent = diskRange.value + ' GB';
+
+              document.querySelectorAll('.system-os').forEach(button => {
+                button.addEventListener('click', function () {
+                  if (!this.disabled) {
+                    document.querySelectorAll('.system-os').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedOS = this.textContent.trim();
+                    checkRequirements();
+                  }
+                });
+              });
+
+              document.querySelectorAll('.virtual-type').forEach(button => {
+                button.addEventListener('click', function () {
+                  document.querySelectorAll('.virtual-type').forEach(btn => btn.classList.remove('active'));
+                  this.classList.add('active');
+                  selectedVirtualType = this.textContent.trim();
+                  toggleContainerRestrictions();
+                  checkRequirements();
+                });
+              });
+
+              ramRange.addEventListener('input', function () {
+                ramValue.textContent = this.value + ' GB';
+                checkRequirements();
+              });
+
+              diskRange.addEventListener('input', function () {
+                diskValue.textContent = this.value + ' GB';
+                checkRequirements();
+              });
+              function checkRequirements() {
+                hideAllWarnings();
+
+                const ramVal = parseInt(ramRange.value);
+                const diskVal = parseInt(diskRange.value);
+
+                if (selectedVirtualType === 'Contenedor') return;
+
+                if (selectedOS === 'Windows10' || selectedOS === 'Windows 10') {
+                  const ramOk = ramVal >= 1;
+                  const diskOk = diskVal >= 32;
+                  if (!ramOk || !diskOk) win10Warning.classList.remove('d-none');
+                  else crearMaquinaBtn.disabled = false;
+                }
+
+                else if (selectedOS === 'Windows11' || selectedOS === 'Windows 11') {
+                  const cpuRadio = document.querySelector('input[name="cpuRadios"]:checked');
+                  const cpuOk = cpuRadio && parseInt(cpuRadio.value) >= 2;
+                  const ramOk = ramVal >= 4;
+                  const diskOk = diskVal >= 64;
+                  if (!cpuOk || !ramOk || !diskOk) win11Warning.classList.remove('d-none');
+                  else crearMaquinaBtn.disabled = false;
+                }
+
+                else if (selectedOS.includes('Ubuntu 24')) {
+                  const cpuRadio = document.querySelector('input[name="cpuRadios"]:checked');
+                  const cpuOk = cpuRadio && parseInt(cpuRadio.value) >= 2;
+                  const ramOk = ramVal >= 4;
+                  const diskOk = diskVal >= 25;
+                  if (!cpuOk || !ramOk || !diskOk) ubuntu24Warning.classList.remove('d-none');
+                  else crearMaquinaBtn.disabled = false;
+                }
+
+                else if (selectedOS.includes('Ubuntu 22')) {
+                  const cpuRadio = document.querySelector('input[name="cpuRadios"]:checked');
+                  const cpuOk = cpuRadio && parseInt(cpuRadio.value) >= 2;
+                  const ramOk = ramVal >= 4;
+                  const diskOk = diskVal >= 25;
+                  if (!cpuOk || !ramOk || !diskOk) ubuntu22Warning.classList.remove('d-none');
+                  else crearMaquinaBtn.disabled = false;
+                }
+
+                else if (selectedOS === 'RockyLinux8' || selectedOS === 'Rocky Linux 8') {
+                  const ramOk = ramVal >= 1;
+                  const diskOk = diskVal >= 10;
+                  if (!ramOk || !diskOk) rocky8Warning.classList.remove('d-none');
+                  else crearMaquinaBtn.disabled = false;
+                }
+
+                else if (selectedOS === 'RockyLinux9' || selectedOS === 'Rocky Linux 9') {
+                  const ramOk = ramVal >= 2;
+                  const diskOk = diskVal >= 40;
+                  if (!ramOk || !diskOk) rocky9Warning.classList.remove('d-none');
+                  else crearMaquinaBtn.disabled = false;
+                }
+
+                else {
+                  crearMaquinaBtn.disabled = false;
+                }
+              }
+
+              function hideAllWarnings() {
+                win10Warning.classList.add('d-none');
+                win11Warning.classList.add('d-none');
+                ubuntu24Warning.classList.add('d-none');
+                ubuntu22Warning.classList.add('d-none');
+                rocky8Warning.classList.add('d-none');
+                rocky9Warning.classList.add('d-none');
+                containerWarning.classList.add('d-none');
+              }
+
+              function toggleContainerRestrictions() {
+                const isContainer = selectedVirtualType === 'Contenedor';
+
+                osButtons.forEach(btn => {
+                  btn.disabled = isContainer;
+                  btn.classList.remove('active');
+                });
+
+                cpuRadios.forEach(radio => {
+                  radio.disabled = isContainer;
+                  radio.checked = false;
+                });
+
+                ramSlider.disabled = isContainer;
+                diskSlider.disabled = isContainer;
+
+                if (isContainer) {
+                  ramValue.textContent = 'GB';
+                  diskValue.textContent = 'GB';
+                  selectedOS = null;
+                  containerWarning.classList.remove('d-none');
+                  crearMaquinaBtn.disabled = true;
+                } else {
+                  ramValue.textContent = ramSlider.value + ' GB';
+                  diskValue.textContent = diskSlider.value + ' GB';
+                  containerWarning.classList.add('d-none');
+                  checkRequirements();
+                }
+              }
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      </body>
+
+</html>

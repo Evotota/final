@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/color.css') }}">
+</head>
+<style>
+  body {
+    background-color: #F7F0E5;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  .navbar {
+    background-color: #F7F0E5 !important;
+  }
+
+  h6 {
+    margin-top: 15px;
+  }
+ <style>
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+</style>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if "exitoso" in message %}  {# Solo muestra mensajes de éxito en el index #}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+  <nav class="navbar bg-body-tertiary mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='imagenes/sameva_logo.png') }}" alt="Sameva Logo" width="200" height="100"
+          class="d-inline-block align-text-top">
+      </a>
+    </div>
+  </nav>
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6 col-lg-4 p-4 border rounded shadow-sm bg-light text-center">
+      <form action="/login" method="POST">
+        <div class="mb-3 text-start">
+          <label for="inputUser" class="form-label">Usuario</label>
+          <input type="text" class="form-control" id="inputUser" name="usuario" placeholder="Tu usuario" required>
+        </div>
+        <div class="mb-3 text-start">
+          <label for="inputPassword" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="inputPassword" name="contrasena" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mb-3">Iniciar Sesión</button>
+      </form>
+      <h6><small class="text-body-secondary">¿Aún no tienes cuenta?</small></h6>
+      <p>
+        <a href="/registro"
+           class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+          Registrate!
+        </a>
+      </p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

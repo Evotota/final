@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+
+    body {
+      background-color: #F7F0E5;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: #F7F0E5 !important;
+    }
+
+    .form-check-label {
+      margin-left: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .card {
+      border: none;
+      background-color: #fff;
+    }
+
+    .btn-custom {
+      background-color: #C95F47;
+      color: white;
+    }
+
+    .btn-custom:hover {
+      background-color: #b34d37;
+    }
+  </style>
+
+  <title>Configuración de Máquina Virtual</title>
+</head>
+<body>
+  <nav class="navbar bg-body-tertiary mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='imagenes/sameva_logo.png') }}" alt="Sameva Logo" width="200" height="100"
+          class="d-inline-block align-text-top">
+      </a>
+    </div>
+  </nav>
+    <div id="win10Warning" class="container mt-3 d-none">
+    <div class="alert alert-warning text-center" role="alert">
+      ⚠️ Para Windows 10, se requiere al menos: <strong>1 GB de RAM</strong> y <strong>32 GB de disco</strong>.
+    </div>
+  </div>
+  <div id="win11Warning" class="container mt-3 d-none">
+    <div class="alert alert-warning text-center" role="alert">
+      ⚠️ Para Windows 11, se requiere al menos:
+      <strong>4 GB de RAM</strong>, <strong>64 GB de disco</strong> y <strong>2 Núcleos</strong>.
+    </div>
+  </div>
+  <div id="ubuntu24Warning" class="container mt-3 d-none">
+    <div class="alert alert-warning text-center" role="alert">
+      ⚠️ Para Ubuntu 24.04.2, se requiere al menos:
+      <strong>4 GB de RAM</strong>, <strong>25 GB de disco</strong> y <strong>2 Núcleos</strong>.
+    </div>
+  </div>
+  <div id="ubuntu22Warning" class="container mt-3 d-none">
+    <div class="alert alert-warning text-center" role="alert">
+      ⚠️ Para Ubuntu 22.04.5, se requiere al menos:
+      <strong>4 GB de RAM</strong>, <strong>25 GB de disco</strong> y <strong>2 Núcleos</strong>.
+    </div>
+  </div>
+  <div id="rocky8Warning" class="container mt-3 d-none">
+    <div class="alert alert-warning text-center" role="alert">
+      ⚠️ Para Rocky Linux 8, se requiere al menos:
+      <strong>1 GB de RAM</strong> y <strong>10 GB de disco</strong>.
+    </div>
+  </div>
+  <div id="rocky9Warning" class="container mt-3 d-none">
+    <div class="alert alert-warning text-center" role="alert">
+      ⚠️ Para Rocky Linux 9, se requiere al menos:
+      <strong>2 GB de RAM</strong> y <strong>40 GB de disco</strong>.
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Configura tu Máquina Virtual</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form id="vmForm" action="/crear" method="post">
+    <div class="container mb-5">
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="card p-3 shadow-sm h-100">
+            <h5 class="section-title text-center mb-3">Sistema Operativo</h5>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="sistema_operativo" id="DJellyfish" value="DJellyfish">
+                  <label class="form-check-label" for="DJellyfish">Desktop Ubuntu 22.04.5 (Jammy Jellyfish)</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="sistema_operativo" id="DNumbat" value="DNumbat">
+                  <label class="form-check-label" for="DNumbat">Desktop Ubuntu 24.04.2 (Noble Numbat)</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="sistema_operativo" id="SJellyfish" value="SJellyfish">
+                  <label class="form-check-label" for="SJellyfish"> Server Ubuntu 22.04.5 (Jammy Jellyfish)</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="sistema_operativo" id="SNumbat" value="SNumbat">
+                  <label class="form-check-label" for="SNumbat">Server Ubuntu 24.04.2 (Noble Numbat)</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="sistema_operativo" id="rocky8" value="5">
+                  <label class="form-check-label" for="rocky8">Rocky Linux 8</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="sistema_operativo" id="rocky9" value="6">
+                  <label class="form-check-label" for="rocky9">Rocky Linux 9</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="card p-3 shadow-sm h-100">
+            <h5 class="section-title text-center mb-3">CPU (Núcleos)</h5>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="cpu" id="cpu1" value="1" checked>
+                  <label class="form-check-label" for="cpu1">1 Núcleo</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="cpu" id="cpu2" value="2">
+                  <label class="form-check-label" for="cpu2">2 Núcleos</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="cpu" id="cpu3" value="3">
+                  <label class="form-check-label" for="cpu3">3 Núcleos</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="cpu" id="cpu4" value="4">
+                  <label class="form-check-label" for="cpu4">4 Núcleos</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="cpu" id="cpu5" value="5">
+                  <label class="form-check-label" for="cpu5">5 Núcleos</label>
+                </div>
+              </div>
+                <div class="row g-4 mb-4">
+  <div class="col-md-12">
+    <div class="card p-3 shadow-sm h-100">
+      <h5 class="section-title text-center mb-3">Nombre de la Máquina</h5>
+      <div class="d-flex justify-content-center">
+        <div class="col-md-6">
+          <input type="text" id="nombreMaquina" name="nombreMaquina" class="form-control"
+                 placeholder="Ej: MiServidorWeb" maxlength="64">
+          <small class="form-text text-muted">si no pones ningún nombre.. (ej: vm-100)</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="card p-3 shadow-sm mb-3">
+            <h5 class="section-title text-center mb-3">RAM</h5>
+            <label for="ramRange" class="form-label text-center d-block">GB</label>
+            <input type="range" class="form-range" min="1" max="32" step="1" name="ram" id="ramRange" value="2">
+            <div class="d-flex justify-content-between mt-1">
+              <span>1 GB</span>
+              <span id="ramValue" class="badge bg-primary rounded-pill">2 GB</span>
+              <span>32 GB</span>
+            </div>
+          </div>
+          <div class="card p-3 shadow-sm">
+            <h5 class="section-title text-center mb-3">Disco</h5>
+            <label for="diskRange" class="form-label text-center d-block">GB</label>
+            <input type="range" class="form-range" min="1" max="100" step="1" name="disco" id="diskRange" value="50">
+            <div class="d-flex justify-content-between mt-1">
+              <span>1 GB</span>
+              <span id="diskValue" class="badge bg-primary rounded-pill">50 GB</span>
+              <span>100 GB</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-4 shadow-sm h-100">
+            <h5 class="section-title text-center mb-4">Aplicaciones Disponibles</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="aplicaciones" value="Apache" id="appApache">
+                  <label class="form-check-label" for="appApache">Apache</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="aplicaciones" value="WordPress" id="appWordpress" checked>
+                  <label class="form-check-label" for="appWordpress">WordPress</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="aplicaciones" value="Docker" id="appDocker" checked>
+                  <label class="form-check-label" for="appDocker">Docker</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="aplicaciones" value="PFSense" id="appPFSense" checked>
+                  <label class="form-check-label" for="appPFSense">PFSense</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="aplicaciones" value="VSCode" id="appVSCode" checked>
+                  <label class="form-check-label" for="appVSCode">Visual Studio Code</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="selectedOS" name="sistema_operativo">
+      <input type="hidden" id="ramHidden" name="ram">
+      <input type="hidden" id="diskHidden" name="disco">
+      <input type="hidden" id="cpuSelected" name="cpu">
+      <input type="hidden" id="appsSelected" name="aplicaciones">
+
+
+      <div class="col-12 text-center mt-4">
+        <button class="btn btn-custom btn-lg px-5" type="submit">Crear Máquina Virtual</button>
+      </div>
+    </div>
+  </form>
+  <script>
+    const ramRange = document.getElementById('ramRange');
+    const diskRange = document.getElementById('diskRange');
+    const ramValue = document.getElementById('ramValue');
+    const diskValue = document.getElementById('diskValue');
+    const selectedOS = document.getElementById('selectedOS');
+    const ramHidden = document.getElementById('ramHidden');
+    const diskHidden = document.getElementById('diskHidden');
+    const cpuSelected = document.getElementById('cpuSelected');
+    const appsSelected = document.getElementById('appsSelected');
+    const nombreMaquinaInput = document.getElementById("nombreMaquina");
+    const nombreMaquinaHidden = document.createElement("input");
+    nombreMaquinaHidden.type = "hidden";
+    nombreMaquinaHidden.id = "nombreMaquinaHidden";
+    nombreMaquinaHidden.name = "nombreMaquina";
+    document.getElementById("vmForm").appendChild(nombreMaquinaHidden);
+
+    nombreMaquinaInput.addEventListener("input", function () {
+      nombreMaquinaHidden.value = this.value.trim();
+});
+
+    ramRange.addEventListener('input', function () {
+      ramValue.textContent = this.value + ' GB';
+      ramHidden.value = this.value;
+    });
+
+    diskRange.addEventListener('input', function () {
+      diskValue.textContent = this.value + ' GB';
+      diskHidden.value = this.value;
+    });
+
+
+    document.querySelectorAll('input[name="sistema_operativo"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        selectedOS.value = this.value;
+      });
+    });
+
+    function actualizarAppsSeleccionadas() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const appsSeleccionadas = [];
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          appsSeleccionadas.push(checkbox.value);
+        }
+ });
+      appsSelected.value = appsSeleccionadas.join(",");
+    }
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', actualizarAppsSeleccionadas);
+    });
+
+    document.getElementById("vmForm").addEventListener("submit", function (e) {
+      actualizarAppsSeleccionadas();
+    });
+
+    actualizarAppsSeleccionadas();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

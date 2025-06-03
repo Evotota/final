@@ -1,0 +1,9 @@
+{
+  "host": "192.168.12.254",
+  "puerto": "8006",
+  "usuario": "root@pam" ,
+  "clave": "sameva",
+  "NODE": "sameva1",
+  "url": "192.168.12.254",
+  "STORAGE": "local-lvm"
+}
